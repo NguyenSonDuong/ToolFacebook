@@ -9,6 +9,10 @@ jobs:
     runs-on: macos-12.5
     steps:
     - uses: actions/checkout@v3
+    
+    - name: flutter install
+      run: git pull
+  
     - name: flutter install
       run: flutter pub upgrade
     - name: flutter build
