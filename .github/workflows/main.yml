@@ -1,0 +1,16 @@
+on:
+  push:
+    branches:
+    - main
+    - release/*
+jobs:
+  my_job:
+    name: deploy to staging
+    runs-on: macos-12.5
+    steps:
+    - uses: actions/checkout@v1
+    - name: npm install, build and test
+      run: |
+        flutter pub upgrade
+        flutter build ios
+  
