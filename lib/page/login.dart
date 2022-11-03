@@ -1,10 +1,21 @@
 import 'package:flutter/material.dart';
+import 'package:tool_facebook/page/home.dart';
 
 import '../animation/FadeAnimation.dart';
+import '../main.dart';
+
+
+
+
+
 
 class LoginStatelessWidget extends StatelessWidget {
+
+
+
   @override
   Widget build(BuildContext context) {
+
     return Scaffold(
         backgroundColor: Colors.white,
         body: SingleChildScrollView(
@@ -115,19 +126,24 @@ class LoginStatelessWidget extends StatelessWidget {
                         ),
                       )),
                       SizedBox(height: 30,),
-                      FadeAnimation(2, Container(
-                        height: 50,
-                        decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(10),
-                            gradient: LinearGradient(
-                                colors: [
-                                  Color.fromRGBO(143, 148, 251, 1),
-                                  Color.fromRGBO(143, 148, 251, .6),
-                                ]
-                            )
-                        ),
-                        child: Center(
-                          child: Text("Login", style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),),
+                      FadeAnimation(2, TextButton(
+                        onPressed: ()=>{
+                          Navigator.push(context, MaterialPageRoute(builder: (context) => HomeStatelessWidget(0)))
+                        },
+                        child: Container(
+                          height: 50,
+                          decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(10),
+                              gradient: LinearGradient(
+                                  colors: [
+                                    Color.fromRGBO(143, 148, 251, 1),
+                                    Color.fromRGBO(143, 148, 251, .6),
+                                  ]
+                              )
+                          ),
+                          child: Center(
+                            child: Text("Login", style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),),
+                          ),
                         ),
                       )),
                       SizedBox(height: 70,),
@@ -138,7 +154,8 @@ class LoginStatelessWidget extends StatelessWidget {
               ],
             ),
           ),
-        )
+        ),
+
     );
   }
 }

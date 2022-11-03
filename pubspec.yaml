@@ -33,6 +33,9 @@ dependencies:
     sdk: flutter
 
   simple_animations: ^5.0.0+2
+  flutter_secure_storage: ^6.0.0
+  http: ^0.13.5
+  xpath_selector: ^1.0.0
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^1.0.2
