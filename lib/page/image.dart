@@ -84,7 +84,7 @@ class ImageState extends State<ImageStatefulWidget>{
     return Scaffold(
       floatingActionButton: FloatingActionButton(
         onPressed: ()=>{
-          Navigator.push(context, MaterialPageRoute(builder: (context) => HomeStatelessWidget(0)))
+          Navigator.push(context, MaterialPageRoute(builder: (context) => HomeStatelessWidget("")))
         },
         backgroundColor: Colors.green,
         child: const Icon(Icons.navigation),

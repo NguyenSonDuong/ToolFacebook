@@ -31,7 +31,7 @@ class _MyHomePageState extends State<MyHomePage> {
   Widget build(BuildContext context) {
     return MaterialApp(
       routes: {
-        Routes.home: (context) => HomeStatelessWidget(0),
+        Routes.home: (context) => HomeStatelessWidget(""),
         Routes.login: (context) => LoginStatelessWidget(),
       },
       home: LoginStatelessWidget(),

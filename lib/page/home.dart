@@ -4,57 +4,37 @@ import 'package:tool_facebook/page/image.dart';
 import 'package:tool_facebook/service/api.dart';
 
 class HomeStatelessWidget extends StatelessWidget {
-  int page;
 
-  HomeStatelessWidget(this.page);
+  String listComment;
+
+  HomeStatelessWidget(this.listComment);
 
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
-    return HomeStatefulWidget(page);
+    return HomeStatefulWidget(listComment);
   }
 }
 
 class HomeStatefulWidget extends StatefulWidget {
-  int page;
+  String listComment;
 
-  HomeStatefulWidget(this.page);
+  HomeStatefulWidget(this.listComment);
 
   @override
-  State<StatefulWidget> createState() => HomeState(page);
+  State<StatefulWidget> createState() => HomeState(listComment);
 }
 
 class HomeState extends State<HomeStatefulWidget> {
   List<dynamic> data = [];
   var abc = "";
-  int page;
+  String listComment;
 
-  HomeState(this.page);
+  HomeState(this.listComment);
 
   @override
   void initState() {
-    API.Get(page).then((value) {
-      final htmlDom = parse(value);
-      // print();
-      // var xpathB = xpath.query('//div[@class="post-thumbnail"]/a/img').elements;
-      // var xpathA = htmlDom.queryXPath(r"//h2/a").elements;
 
-      var xpathB = htmlDom.getElementsByClassName("post-thumbnail");
-      var xpathA = htmlDom.getElementsByClassName("post-box-title");
-
-      print(xpathB);
-      print(xpathA);
-      int i = 0;
-      xpathA.forEach((element) {
-        print(element.children[0].innerHtml);
-        setData({
-          "url": element.children[0].attributes["href"],
-          "title": element.children[0].text,
-          "image": xpathB[i].children[0].children[0].attributes["src"],
-        });
-        i++;
-      });
-    });
   }
 
   setData(data) {
@@ -70,7 +50,7 @@ class HomeState extends State<HomeStatefulWidget> {
       floatingActionButton: FloatingActionButton(
         onPressed: () => {
           Navigator.push(context,
-              MaterialPageRoute(builder: (context) => HomeStatelessWidget(0)))
+              MaterialPageRoute(builder: (context) => HomeStatelessWidget("")))
         },
         backgroundColor: Colors.green,
         child: const Icon(Icons.navigation),
@@ -82,7 +62,7 @@ class HomeState extends State<HomeStatefulWidget> {
               Navigator.push(
                   context,
                   MaterialPageRoute(
-                      builder: (context) => HomeStatelessWidget(page - 1)));
+                      builder: (context) => HomeStatelessWidget("")));
             }
 
             // Swiping in left direction.
@@ -90,7 +70,7 @@ class HomeState extends State<HomeStatefulWidget> {
               Navigator.push(
                   context,
                   MaterialPageRoute(
-                      builder: (context) => HomeStatelessWidget(page + 1)));
+                      builder: (context) => HomeStatelessWidget("page + 1")));
             }
           },
           child: ListView.builder(
@@ -101,11 +81,11 @@ class HomeState extends State<HomeStatefulWidget> {
                   height: 150,
                   child: TextButton(
                       onPressed: () {
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => ImageStatelessWidget(
-                                    this.data[index]['url'], 1)));
+                        // Navigator.push(
+                        //     context,
+                        //     MaterialPageRoute(
+                        //         builder: (context) => ImageStatelessWidget(
+                        //             this.data[index]['url'], 1)));
                       },
                       child: Row(
                         crossAxisAlignment: CrossAxisAlignment.start,
