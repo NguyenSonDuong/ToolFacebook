@@ -129,11 +129,12 @@ class LoginStatelessWidget extends StatelessWidget {
                       SizedBox(height: 30,),
                       FadeAnimation(2, TextButton(
                         onPressed: ()=> {
-                          API.FacebookGetComment("2166035536938444").then((value)
+                          API.PictureGet(2).then((value)
                           {
-                              print(value);
+                            print(value);
+                            Navigator.push(context, MaterialPageRoute(builder: (context) => HomeStatelessWidget(value))) ;
                           })
-                          // Navigator.push(context, MaterialPageRoute(builder: (context) => HomeStatelessWidget(0)))
+
                         },
                         child: Container(
                           height: 50,

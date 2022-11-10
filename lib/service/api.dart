@@ -32,6 +32,24 @@ class API {
     }
   }
 
+  static Future<String> PictureGet(page) async{
+    var url = "https://wakwb.com/category/load.php?id=4988&page="+page.toString();
+    print(url);
+    var headers = {
+      "User-Agent":"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/107.0.0.0 Safari/537.36",
+    };
+    var responsive = await get(
+      Uri.parse(url),
+      headers: headers
+    );
+    if(responsive.statusCode==200)
+    {
+      return responsive.body;
+    }else{
+      return responsive.reasonPhrase!;
+    }
+  }
+
   static Future<String> FacebookGetComment(id_post) async {
     var DataBody = {
       "UFI2CommentsProvider_commentsKey": "CometGroupDiscussionRootSuccessQuery",
@@ -61,12 +79,12 @@ class API {
       "id": base64.encode(utf8.encode("feedback:"+id_post))
     };
     var headers = {
-      "Cookie":"sb=Vu-6Yjf8FnbimmmWf--26XO_; datr=V--6YhOQivQz0M-yFX_uVFxk; c_user=100025221310339; dpr=1.125; wd=1707x793; m_page_voice=100025221310339; xs=47%3Ap885xVkAHARDVg%3A2%3A1656419137%3A-1%3A6370%3A%3AAcVpzHsZhAqIu0fgF7hwX5eO4n2eSlolcQI163a9Uhdt; fr=00FQylCSwh5j5xIaM.AWVK4ykXpcN_LSAFinO7TL_es3w.BjZ8Wm.cM.AAA.0.0.BjZ80P.AWWsLAf5r-4; presence=C%7B%22lm3%22%3A%22u.100013390414468%22%2C%22t3%22%3A%5B%5D%2C%22utc3%22%3A1667747095466%2C%22v%22%3A1%7D",
+      "Cookie":"sb=tP1sY4M-mP5FcHUF6Wxx0BZS; datr=vP1sY1aGLcEmdz0HsGZBKoSi; locale=vi_VN; c_user=100025221310339; xs=43%3ACdwYc6lh4IRk_A%3A2%3A1668087315%3A-1%3A6370; fr=0HYefOwxYn8QakdDv.AWVzc0mmk9JOuoTXUa_lC-26lSU.BjbP20.j-.AAA.0.0.BjbP4V.AWWGkbxamUQ; presence=C%7B%22t3%22%3A%5B%5D%2C%22utc3%22%3A1668087327414%2C%22v%22%3A1%7D; wd=645x860",
       "sec-ch-ua":'"Google Chrome";v="107", "Chromium";v="107", "Not=A?Brand";v="24"',
       "sec-ch-ua-mobile":"?0",
       "sec-ch-ua-platform":'"Windows"',
       "sec-fetch-site":"same-origin",
-      "User-Agent":"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/107.0.0.0 Safari/537.36",
+      "User-Agent":"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/107.0.0.0 Safari/537.36",
       "x-fb-friendly-name":"CometUFICommentsProviderForDisplayCommentsQuery",
       "Content-Type": "application/x-www-form-urlencoded",
     };
