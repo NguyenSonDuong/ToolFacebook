@@ -12,7 +12,8 @@ import '../service/api.dart';
 
 class LoginStatelessWidget extends StatelessWidget {
 
-
+  TextEditingController email = new TextEditingController();
+  TextEditingController password = new TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -101,11 +102,12 @@ class LoginStatelessWidget extends StatelessWidget {
                         child: Column(
                           children: <Widget>[
                             Container(
-                              padding: EdgeInsets.all(8.0),
+                              padding: EdgeInsets.fromLTRB(15, 8, 15, 8),
                               decoration: BoxDecoration(
                                   border: Border(bottom: BorderSide(color: Colors.grey))
                               ),
                               child: TextField(
+                                controller: email,
                                 decoration: InputDecoration(
                                     border: InputBorder.none,
                                     hintText: "Email or Phone number",
@@ -114,8 +116,9 @@ class LoginStatelessWidget extends StatelessWidget {
                               ),
                             ),
                             Container(
-                              padding: EdgeInsets.all(8.0),
+                              padding: EdgeInsets.fromLTRB(15, 8, 15, 8),
                               child: TextField(
+                                controller: password,
                                 decoration: InputDecoration(
                                     border: InputBorder.none,
                                     hintText: "Password",
@@ -129,11 +132,18 @@ class LoginStatelessWidget extends StatelessWidget {
                       SizedBox(height: 30,),
                       FadeAnimation(2, TextButton(
                         onPressed: ()=> {
-                          API.PictureGet(1).then((value)
-                          {
-                            print(value);
-                            Navigator.push(context, MaterialPageRoute(builder: (context) => HomeStatelessWidget(value))) ;
-                          })
+                          if(email.value.text == "kit502" && password.value.text == "abc"){
+                            API.ImageGetList(1).then((value)
+                            {
+                              Navigator.push(context, MaterialPageRoute(builder: (context) => HomeStatelessWidget(value,1))) ;
+                            })
+                          }else{
+                            API.PictureGet(1).then((value)
+                            {
+                              Navigator.push(context, MaterialPageRoute(builder: (context) => HomeStatelessWidget(value,0))) ;
+                            })
+                          }
+
 
                         },
                         child: Container(
