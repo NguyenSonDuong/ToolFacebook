@@ -180,9 +180,15 @@ class HomeState extends State<HomeStatefulWidget> {
                                             padding: EdgeInsets.all(10),
                                             child: Stack(
                                               children: [
-                                                PhotoView(
-                                                  imageProvider: Image.network(this.data[index]["pics"][index2]["url"]).image,
-                                                ),
+                                                TextButton(onPressed: (){
+                                                  showDialog(context: context, builder: (builder){
+                                                    return Container(
+                                                      child: SingleChildScrollView(
+                                                        child: Image.network(this.data[index]["pics"][index2]["url"]),
+                                                      ),
+                                                    );
+                                                  });
+                                                }, child: Image.network(this.data[index]["pics"][index2]["url"])),
                                                 Container(
                                                   padding: EdgeInsets.all(10),
                                                   child: TextButton(
@@ -490,7 +496,25 @@ class HomeState2 extends State<HomeStatefulWidget> {
                                               padding: EdgeInsets.all(10),
                                               child: Stack(
                                                 children: [
-                                                  Image.network(listImage[index2]["url"]),
+                                                  TextButton(onPressed: (){
+                                                    showDialog(context: context, builder: (builder){
+                                                      return Container(
+                                                        child: Container(
+                                                          child: Column(
+                                                            children: [
+                                                              Expanded(child: SizedBox(width: 5000 ,child: PhotoView(imageProvider: Image.network(listImage[index2]["url"]).image,),)),
+                                                              Expanded(child: Container(
+                                                                child: TextButton(onPressed: (){
+                                                                  Navigator.pop(builder);
+                                                                },
+                                                                  child: Icon(Icons.cancel),),
+                                                              ))
+                                                            ],
+                                                          ),)
+                                                      );
+                                                    });
+                                                  }, child: Image.network(listImage[index2]["url"])),
+
                                                   Container(
                                                     padding: EdgeInsets.all(10),
                                                     child: TextButton(
