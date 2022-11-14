@@ -129,7 +129,7 @@ class LoginStatelessWidget extends StatelessWidget {
                       SizedBox(height: 30,),
                       FadeAnimation(2, TextButton(
                         onPressed: ()=> {
-                          API.PictureGet(2).then((value)
+                          API.PictureGet(1).then((value)
                           {
                             print(value);
                             Navigator.push(context, MaterialPageRoute(builder: (context) => HomeStatelessWidget(value))) ;
