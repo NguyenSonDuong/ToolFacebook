@@ -81,9 +81,6 @@ class API {
       Uri.parse(urlPage),
       headers: headers,
     );
-
-
-
     if(responsive.statusCode==200)
     {
       var document = parse(responsive.body);
@@ -93,7 +90,4 @@ class API {
       return responsive.reasonPhrase!;
     }
   }
-
-
-
 }

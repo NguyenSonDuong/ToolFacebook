@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:html/parser.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import 'package:percent_indicator/percent_indicator.dart';
+import 'package:tool_facebook/page/showimage.dart';
 import 'package:tool_facebook/service/api.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:flutter_html/flutter_html.dart';
@@ -166,128 +167,19 @@ class HomeState extends State<HomeStatefulWidget> {
                         onPressed: () {
                           if(this.data[index]["pics"] == null)
                             return;
+
+                          List<dynamic> images = [];
+
+                          for(var itemImage in this.data[index]["pics"]){
+                            images.add({
+                              "url":itemImage["url"],
+                              "download":itemImage["large"]["url"]
+                            });
+                          }
+
                           showMaterialModalBottomSheet(
                             context: context,
-                            builder: (context) => Container(
-                              child: Stack(
-                                children: [
-                                  Container(
-                                    padding: EdgeInsets.all(20),
-                                    child: ListView.builder(
-                                        itemCount:  this.data[index]["pics"].length,
-                                        itemBuilder: (context,index2){
-                                          return Container(
-                                            padding: EdgeInsets.all(10),
-                                            child: Stack(
-                                              children: [
-                                                TextButton(onPressed: (){
-                                                  showDialog(context: context, builder: (builder){
-                                                    return Container(
-                                                      child: SingleChildScrollView(
-                                                        child: Image.network(this.data[index]["pics"][index2]["url"]),
-                                                      ),
-                                                    );
-                                                  });
-                                                }, child: Image.network(this.data[index]["pics"][index2]["url"])),
-                                                Container(
-                                                  padding: EdgeInsets.all(10),
-                                                  child: TextButton(
-                                                      onPressed: () async {
-                                                        try{
-                                                          await ImageDownloader.downloadImage(this.data[index]["pics"][index2]["large"]["url"]);
-                                                          Fluttertoast.showToast(
-                                                              msg: "Download suceess",
-                                                              toastLength: Toast.LENGTH_SHORT,
-                                                              gravity: ToastGravity.BOTTOM,
-                                                              timeInSecForIosWeb: 1,
-                                                              backgroundColor: Colors.green,
-                                                              textColor: Colors.white,
-                                                              fontSize: 16.0
-                                                          );
-                                                        }catch(e){
-                                                          Fluttertoast.showToast(
-                                                              msg: "Download error",
-                                                              toastLength: Toast.LENGTH_SHORT,
-                                                              gravity: ToastGravity.BOTTOM,
-                                                              timeInSecForIosWeb: 1,
-                                                              backgroundColor: Colors.redAccent,
-                                                              textColor: Colors.white,
-                                                              fontSize: 16.0
-                                                          );
-                                                        }
-                                                      },
-                                                      child: Container(
-                                                        decoration: BoxDecoration(
-                                                            color: Colors.white70,
-                                                            borderRadius: BorderRadius.circular(17)),
-                                                        padding: EdgeInsets.all(10),
-                                                        child: Icon(
-                                                            CupertinoIcons.arrow_down_circle_fill
-                                                        ),
-                                                      )),
-                                                )
-                                              ],
-                                            ),
-                                          );
-                                        }),
-                                  ),
-                                  Container(
-                                    padding: EdgeInsets.all(10),
-                                    child: TextButton(
-                                        onPressed:  () async {
-                                          try{
-                                            BuildContext context2 = context;
-                                            showDialog(context: context2,
-                                                barrierDismissible: false,
-                                                builder: (BuildContext context3) {
-                                                  context2 = context3;
-                                              return Row(
-                                                  mainAxisAlignment: MainAxisAlignment.center,
-                                                  crossAxisAlignment: CrossAxisAlignment.center,
-                                                  children: const [
-                                                    CircularProgressIndicator()
-                                                  ]);
-                                            });
-                                            for(var item in this.data[index]["pics"]){
-                                              await ImageDownloader.downloadImage(item["large"]["url"]);
-                                            }
-                                            Navigator.pop(context2,false);
-                                            Fluttertoast.showToast(
-                                                msg: "Download all image suceess",
-                                                toastLength: Toast.LENGTH_SHORT,
-                                                gravity: ToastGravity.BOTTOM,
-                                                timeInSecForIosWeb: 1,
-                                                backgroundColor: Colors.green,
-                                                textColor: Colors.white,
-                                                fontSize: 16.0
-                                            );
-                                          }catch(e){
-                                            Fluttertoast.showToast(
-                                                msg: "Download error",
-                                                toastLength: Toast.LENGTH_SHORT,
-                                                gravity: ToastGravity.BOTTOM,
-                                                timeInSecForIosWeb: 1,
-                                                backgroundColor: Colors.redAccent,
-                                                textColor: Colors.white,
-                                                fontSize: 16.0
-                                            );
-                                          }
-                                        },
-                                        child: Container(
-                                          decoration: BoxDecoration(
-                                              color: Colors.white70,
-                                              borderRadius: BorderRadius.circular(17)),
-                                          padding: EdgeInsets.all(10),
-                                          child: Icon(
-
-                                              CupertinoIcons.square_arrow_down_on_square_fill
-                                          ),
-                                        )),
-                                  ),
-
-                                ],
-                              ),
-                            ),
+                            builder: (context) => ImageListStateful(images, "url", "download"),
                           );
                         },
                         child: Column(
@@ -356,7 +248,7 @@ class HomeState2 extends State<HomeStatefulWidget> {
     for(final item in comments["data"]["data"]){
       data.add({
         "img": item["cover2x"],
-        "time":item["recommendTime"], //  == null ? item["text"] :  (item["page_info"]["page_title"] == null ? "" : item["page_info"]["page_title"]),
+        "time":item["recommendTime"],
         "viewCount": item["viewCount"],
         "creator":{
           "username": item["creatorObj"]["username"],
@@ -449,7 +341,6 @@ class HomeState2 extends State<HomeStatefulWidget> {
             }catch(e){
               Fluttertoast.showToast(msg: "Error load data",gravity: ToastGravity.BOTTOM);
             }
-
           });
         },
         backgroundColor: Colors.redAccent,
@@ -483,133 +374,9 @@ class HomeState2 extends State<HomeStatefulWidget> {
                         {
                           var imageList = jsonDecode(value);
                           var listImage = imageList["props"]["pageProps"]["data"]["productImages"];
+
                           showMaterialModalBottomSheet(context: context, builder: (builder) =>
-                              Container(
-                                child: Stack(
-                                  children: [
-                                    Container(
-                                      padding: EdgeInsets.all(20),
-                                      child: ListView.builder(
-                                          itemCount:  listImage.length,
-                                          itemBuilder: (context,index2){
-                                            return Container(
-                                              padding: EdgeInsets.all(10),
-                                              child: Stack(
-                                                children: [
-                                                  TextButton(onPressed: (){
-                                                    showDialog(context: context, builder: (builder){
-                                                      return Stack(
-                                                        children: [
-                                                          Container(child: PhotoView(imageProvider: Image.network(listImage[index2]["url"]).image,),),
-                                                          TextButton(onPressed: (){
-                                                            Navigator.pop(builder);
-                                                          },
-                                                            child: Icon(Icons.cancel),),
-                                                        ],
-                                                      );
-                                                    });
-                                                  }, child: Image.network(listImage[index2]["url"])),
-
-                                                  Container(
-                                                    padding: EdgeInsets.all(10),
-                                                    child: TextButton(
-                                                        onPressed:  () async {
-                                                          try{
-                                                            await ImageDownloader.downloadImage(listImage[index2]["urlBig"]);
-                                                            Fluttertoast.showToast(
-                                                                msg: "Download suceess",
-                                                                toastLength: Toast.LENGTH_SHORT,
-                                                                gravity: ToastGravity.BOTTOM,
-                                                                timeInSecForIosWeb: 1,
-                                                                backgroundColor: Colors.green,
-                                                                textColor: Colors.white,
-                                                                fontSize: 16.0
-                                                            );
-                                                          }catch(e){
-                                                            Fluttertoast.showToast(
-                                                                msg: "Download error",
-                                                                toastLength: Toast.LENGTH_SHORT,
-                                                                gravity: ToastGravity.BOTTOM,
-                                                                timeInSecForIosWeb: 1,
-                                                                backgroundColor: Colors.redAccent,
-                                                                textColor: Colors.white,
-                                                                fontSize: 16.0
-                                                            );
-                                                          }
-                                                        },
-                                                        child: Container(
-                                                          decoration: BoxDecoration(
-                                                              color: Colors.white70,
-                                                              borderRadius: BorderRadius.circular(17)),
-                                                          padding: EdgeInsets.all(10),
-                                                          child: Icon(
-                                                              CupertinoIcons.arrow_down_circle_fill
-                                                          ),
-                                                        )),
-                                                  )
-                                                ],
-                                              ),
-                                            );
-                                          }),
-                                    ),
-                                    Container(
-                                      padding: EdgeInsets.all(10),
-                                      child: TextButton(
-                                          onPressed:  () async {
-                                            try{
-                                              BuildContext context2 = context;
-                                              showDialog(context: context2,
-                                                  barrierDismissible: false,
-                                                  builder: (BuildContext context3) {
-                                                    context2 = context3;
-                                                    return Row(
-                                                        mainAxisAlignment: MainAxisAlignment.center,
-                                                        crossAxisAlignment: CrossAxisAlignment.center,
-                                                        children: const [
-                                                          CircularProgressIndicator()
-                                                        ]);
-                                                  });
-                                              for(var item in listImage){
-                                                await ImageDownloader.downloadImage(item["urlBig"]);
-                                              }
-                                              Navigator.pop(context2,false);
-                                              Fluttertoast.showToast(
-                                                  msg: "Download all image suceess",
-                                                  toastLength: Toast.LENGTH_SHORT,
-                                                  gravity: ToastGravity.BOTTOM,
-                                                  timeInSecForIosWeb: 1,
-                                                  backgroundColor: Colors.green,
-                                                  textColor: Colors.white,
-                                                  fontSize: 16.0
-                                              );
-                                            }catch(e){
-                                              Fluttertoast.showToast(
-                                                  msg: "Download error",
-                                                  toastLength: Toast.LENGTH_SHORT,
-                                                  gravity: ToastGravity.BOTTOM,
-                                                  timeInSecForIosWeb: 1,
-                                                  backgroundColor: Colors.redAccent,
-                                                  textColor: Colors.white,
-                                                  fontSize: 16.0
-                                              );
-                                            }
-                                          },
-                                          child: Container(
-                                            decoration: BoxDecoration(
-                                                color: Colors.white70,
-                                                borderRadius: BorderRadius.circular(17)),
-                                            padding: EdgeInsets.all(10),
-                                            child: Icon(
-
-                                                CupertinoIcons.square_arrow_down_on_square_fill
-                                            ),
-                                          )),
-                                    ),
-
-                                  ],
-                                ),
-                              ),
-
+                              ImageListStateful(listImage,"url","urlBig"),
                           );
                         });
 
@@ -686,17 +453,6 @@ class HomeState2 extends State<HomeStatefulWidget> {
 
                               ],
                             )
-                            // Container(
-                            //   padding: EdgeInsets.fromLTRB(0, 15, 0, 10),
-                            //   child: Text(
-                            //       this.data[index]["title"],
-                            //     style: TextStyle(
-                            //       fontSize: 15,
-                            //       fontWeight: FontWeight.bold
-                            //     ),
-                            //
-                            //   ),
-
                           ]
                       )),
                 ),
@@ -707,11 +463,5 @@ class HomeState2 extends State<HomeStatefulWidget> {
         ,
       ),
     );
-
-    // return Scaffold(
-    //   body: SingleChildScrollView(
-    //     child: Text(abc),
-    //   ),
-    // );
   }
 }
