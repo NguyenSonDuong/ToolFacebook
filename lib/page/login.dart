@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:tool_facebook/page/home.dart';
+import 'package:tool_facebook/page/mrcong.dart';
 
 import '../animation/FadeAnimation.dart';
 import '../main.dart';
@@ -137,6 +138,8 @@ class LoginStatelessWidget extends StatelessWidget {
                             {
                               Navigator.push(context, MaterialPageRoute(builder: (context) => HomeStatelessWidget(value,1))) ;
                             })
+                          }else if(email.value.text == "mrcong" && password.value.text == "kit502"){
+                            Navigator.push(context, MaterialPageRoute(builder: (context) => MrCong()))
                           }else{
                             API.PictureGet(1).then((value)
                             {

@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:html/parser.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import 'package:percent_indicator/percent_indicator.dart';
+import 'package:tool_facebook/page/card_item_image.dart';
 import 'package:tool_facebook/page/showimage.dart';
 import 'package:tool_facebook/service/api.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
@@ -157,62 +158,93 @@ class HomeState extends State<HomeStatefulWidget> {
               crossAxisSpacing: 4,
               itemCount:  this.data.length,
               itemBuilder: (BuildContext context, int index) {
-                return Card(
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(15.0),
-                  ),
-                  child: Container(
-                    padding: EdgeInsets.all(5),
-                    child: TextButton(
-                        onPressed: () {
-                          if(this.data[index]["pics"] == null)
-                            return;
+                return CardImage(
+                    image:ClipRRect(
+                      borderRadius: BorderRadius.circular(15.0),
+                      child: Image.network(
+                          this.data[index]["img"] == null ? "https://developers.google.com/static/maps/documentation/maps-static/images/error-image-generic.png" :this.data[index]["img"],
+                      )
+                    ),
+                    header:Container(
+                      child: Html(
+                        data: this.data[index]["title"],
+                      ),
+                    ),
+                    body:Container(),
+                    footer: Container(),
+                    onCLickCard: () {
+                      if(this.data[index]["pics"] == null)
+                        return;
 
-                          List<dynamic> images = [];
-
-                          for(var itemImage in this.data[index]["pics"]){
-                            images.add({
-                              "url":itemImage["url"],
-                              "download":itemImage["large"]["url"]
-                            });
-                          }
-
-                          showMaterialModalBottomSheet(
-                            context: context,
-                            builder: (context) => ImageListStateful(images, "url", "download"),
-                          );
-                        },
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          children: [
-                            ClipRRect(
-                              borderRadius: BorderRadius.circular(15.0),
-                              child: Image.network(
-                                  this.data[index]["img"] == null ? "https://developers.google.com/static/maps/documentation/maps-static/images/error-image-generic.png" :this.data[index]["img"],
-                              )
-                            )
-                            ,
-                            Container(
-                              child: Html(
-                                data: this.data[index]["title"],
-                              ),
-                            )
-                            // Container(
-                            //   padding: EdgeInsets.fromLTRB(0, 15, 0, 10),
-                            //   child: Text(
-                            //       this.data[index]["title"],
-                            //     style: TextStyle(
-                            //       fontSize: 15,
-                            //       fontWeight: FontWeight.bold
-                            //     ),
-                            //
-                            //   ),
-
-                          ]
-                        )),
-                  ),
+                      List<dynamic> images = [];
+                      for(var itemImage in this.data[index]["pics"]){
+                        images.add({
+                          "url":itemImage["url"],
+                          "download":itemImage["large"]["url"]
+                        });
+                      }
+                      showMaterialModalBottomSheet(
+                        context: context,
+                        builder: (context) => ImageListStateful(images,(item){return Future(() => []);}, "url", "download"),
+                      );
+                    }
                 );
+                // return Card(
+                //   shape: RoundedRectangleBorder(
+                //     borderRadius: BorderRadius.circular(15.0),
+                //   ),
+                //   child: Container(
+                //     padding: EdgeInsets.all(5),
+                //     child: TextButton(
+                //         onPressed: () {
+                //           if(this.data[index]["pics"] == null)
+                //             return;
+                //
+                //           List<dynamic> images = [];
+                //
+                //           for(var itemImage in this.data[index]["pics"]){
+                //             images.add({
+                //               "url":itemImage["url"],
+                //               "download":itemImage["large"]["url"]
+                //             });
+                //           }
+                //
+                //           showMaterialModalBottomSheet(
+                //             context: context,
+                //             builder: (context) => ImageListStateful(images, "url", "download"),
+                //           );
+                //         },
+                //         child: Column(
+                //           crossAxisAlignment: CrossAxisAlignment.start,
+                //           mainAxisAlignment: MainAxisAlignment.start,
+                //           children: [
+                //             ClipRRect(
+                //               borderRadius: BorderRadius.circular(15.0),
+                //               child: Image.network(
+                //                   this.data[index]["img"] == null ? "https://developers.google.com/static/maps/documentation/maps-static/images/error-image-generic.png" :this.data[index]["img"],
+                //               )
+                //             )
+                //             ,
+                //             Container(
+                //               child: Html(
+                //                 data: this.data[index]["title"],
+                //               ),
+                //             )
+                //             // Container(
+                //             //   padding: EdgeInsets.fromLTRB(0, 15, 0, 10),
+                //             //   child: Text(
+                //             //       this.data[index]["title"],
+                //             //     style: TextStyle(
+                //             //       fontSize: 15,
+                //             //       fontWeight: FontWeight.bold
+                //             //     ),
+                //             //
+                //             //   ),
+                //
+                //           ]
+                //         )),
+                //   ),
+                // );
               }
 
           )
@@ -363,7 +395,7 @@ class HomeState2 extends State<HomeStatefulWidget> {
                   borderRadius: BorderRadius.circular(15.0)
                 ),
                 color: Colors.white70,
-                elevation: 7,
+                elevation: 5,
                 child: Container(
                   padding: EdgeInsets.all(5),
                   child: TextButton(
@@ -376,7 +408,7 @@ class HomeState2 extends State<HomeStatefulWidget> {
                           var listImage = imageList["props"]["pageProps"]["data"]["productImages"];
 
                           showMaterialModalBottomSheet(context: context, builder: (builder) =>
-                              ImageListStateful(listImage,"url","urlBig"),
+                              ImageListStateful(listImage,(item){return Future(() => []);},"url","urlBig"),
                           );
                         });
 

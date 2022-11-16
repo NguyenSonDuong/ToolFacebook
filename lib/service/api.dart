@@ -90,4 +90,66 @@ class API {
       return responsive.reasonPhrase!;
     }
   }
+
+  static Future<dynamic> GetListImageMRCong(page) async {
+    var headers = {
+      'referer': "https://mrcong.com/page/"+(page-1).toString(),
+      'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/107.0.0.0 Safari/537.36'
+    };
+
+    var responsive = await get(
+      Uri.parse("https://mrcong.com/page/"+page.toString()),
+      headers: headers,
+    );
+    if(responsive.statusCode==200)
+    {
+      var document = parse(responsive.body);
+      
+      var listElementPost = document.querySelectorAll("article[class='item-list']");
+      List<dynamic> infor = [];
+      for(var itemElement in listElementPost){
+        infor.add({
+          "url_image":itemElement.getElementsByTagName("img")[0].attributes["src"].toString(),
+          "title": itemElement.querySelector("h2 > a")!.text.toString(),
+          "link":itemElement.querySelector("h2 > a")!.attributes["href"].toString(),
+          "viewer":itemElement.querySelector("span[class='post-views']")!.text.toString(),
+          "auth" : itemElement.querySelector("span[class='post-cats']")!.text.toString()
+        });
+      }
+
+      return infor;
+    }else{
+      return responsive.reasonPhrase!;
+    }
+  }
+
+  static Future<dynamic> GetListImageMRCongPost(String link) async {
+    var headers = {
+      'referer': link,
+      'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/107.0.0.0 Safari/537.36'
+    };
+
+    var responsive = await get(
+      Uri.parse(link),
+      headers: headers,
+    );
+    if(responsive.statusCode==200)
+    {
+      var document = parse(responsive.body);
+
+      var listElementPost = document.querySelectorAll("img[class='aligncenter']");
+      List<dynamic> infor = [];
+      for(var itemElement in listElementPost){
+        infor.add({
+          "image":itemElement.attributes["src"].toString(),
+          "download": itemElement.attributes["src"].toString()
+        });
+      }
+
+      return infor;
+    }else{
+      return responsive.reasonPhrase!;
+    }
+  }
 }
+

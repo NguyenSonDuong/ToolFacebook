@@ -6,30 +6,35 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:image_downloader/image_downloader.dart';
 import 'package:photo_view/photo_view.dart';
 
+typedef Future<dynamic> OnScrollEnd(int page);
+
 class ImageListStateful extends StatefulWidget {
 
-  ImageListStateful(this.images,this.keyView,this.keyDownload);
+  ImageListStateful(this.images,this._controllerScroll,this.keyView,this.keyDownload);
 
   List<dynamic> images;
   String keyView;
   String keyDownload;
+  OnScrollEnd _controllerScroll ;
 
   @override
-  State<ImageListStateful> createState() => _ImageListStatefulState(images, keyView, keyDownload);
+  State<ImageListStateful> createState() => _ImageListStatefulState(images,_controllerScroll, keyView, keyDownload);
 }
 
 class _ImageListStatefulState extends State<ImageListStateful> with SingleTickerProviderStateMixin {
   late AnimationController _controller;
-
-  _ImageListStatefulState(this.listImage,this.keyView,this.keyDownload);
-
+  ScrollController _scrollController = ScrollController();
+  OnScrollEnd _controllerScroll ;
+  _ImageListStatefulState(this.listImage,this._controllerScroll,this.keyView,this.keyDownload);
+  int page = 2;
   List<dynamic> listImage;
   String keyView;
   String keyDownload;
-
+  bool preventCall = false;
   @override
   void initState() {
     super.initState();
+    _scrollController.addListener(onScroll);
     _controller = AnimationController(vsync: this);
   }
 
@@ -37,6 +42,24 @@ class _ImageListStatefulState extends State<ImageListStateful> with SingleTicker
   void dispose() {
     _controller.dispose();
     super.dispose();
+  }
+
+  void onScroll(){
+    var position = _scrollController.position.pixels;
+    if (position >= _scrollController.position.maxScrollExtent - 10) {
+      if (!preventCall) {
+        print("Chayj ddeens ddaay nef");
+        _controllerScroll(this.page).then((value) {
+          setState(() {
+            listImage.addAll(value);
+          });
+          this.page++;
+          preventCall = false;
+        });
+        preventCall = true;
+      }
+    }
+
   }
 
   @override
@@ -47,6 +70,7 @@ class _ImageListStatefulState extends State<ImageListStateful> with SingleTicker
           Container(
             padding: const EdgeInsets.all(20),
             child: ListView.builder(
+              controller: _scrollController,
                 itemCount:  listImage.length,
                 itemBuilder: (context,index2){
                   return Container(
