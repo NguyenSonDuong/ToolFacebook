@@ -498,19 +498,14 @@ class HomeState2 extends State<HomeStatefulWidget> {
                                                 children: [
                                                   TextButton(onPressed: (){
                                                     showDialog(context: context, builder: (builder){
-                                                      return Container(
-                                                        child: Container(
-                                                          child: Column(
-                                                            children: [
-                                                              Expanded(child: SizedBox(width: 5000 ,child: PhotoView(imageProvider: Image.network(listImage[index2]["url"]).image,),)),
-                                                              Expanded(child: Container(
-                                                                child: TextButton(onPressed: (){
-                                                                  Navigator.pop(builder);
-                                                                },
-                                                                  child: Icon(Icons.cancel),),
-                                                              ))
-                                                            ],
-                                                          ),)
+                                                      return Stack(
+                                                        children: [
+                                                          Container(child: PhotoView(imageProvider: Image.network(listImage[index2]["url"]).image,),),
+                                                          TextButton(onPressed: (){
+                                                            Navigator.pop(builder);
+                                                          },
+                                                            child: Icon(Icons.cancel),),
+                                                        ],
                                                       );
                                                     });
                                                   }, child: Image.network(listImage[index2]["url"])),
