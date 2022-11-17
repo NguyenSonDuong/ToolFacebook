@@ -406,7 +406,6 @@ class HomeState2 extends State<HomeStatefulWidget> {
                         {
                           var imageList = jsonDecode(value);
                           var listImage = imageList["props"]["pageProps"]["data"]["productImages"];
-
                           showMaterialModalBottomSheet(context: context, builder: (builder) =>
                               ImageListStateful(listImage,(item){return Future(() => []);},"url","urlBig"),
                           );

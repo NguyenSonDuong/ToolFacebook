@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:tool_facebook/page/home.dart';
+import 'package:tool_facebook/page/home_page.dart';
 import 'package:tool_facebook/page/login.dart';
 import 'package:tool_facebook/service/api.dart';
 
@@ -34,7 +35,7 @@ class _MyHomePageState extends State<MyHomePage> {
         Routes.home: (context) => HomeStatelessWidget("",0),
         Routes.login: (context) => LoginStatelessWidget(),
       },
-      home: LoginStatelessWidget(),
+      home: HomePage(),
     );
     // return LoginStatelessWidget();
   }

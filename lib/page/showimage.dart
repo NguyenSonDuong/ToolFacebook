@@ -48,7 +48,6 @@ class _ImageListStatefulState extends State<ImageListStateful> with SingleTicker
     var position = _scrollController.position.pixels;
     if (position >= _scrollController.position.maxScrollExtent - 10) {
       if (!preventCall) {
-        print("Chayj ddeens ddaay nef");
         _controllerScroll(this.page).then((value) {
           setState(() {
             listImage.addAll(value);
