@@ -1,4 +1,5 @@
 
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class SuggestCard extends StatefulWidget {
@@ -29,39 +30,38 @@ class _SuggestCardState extends State<SuggestCard> with SingleTickerProviderStat
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: 300,
-      height: 100,
+      width: 250,
+      height: 120,
       child: Stack(
         alignment: Alignment.centerLeft,
         children: [
           Container(
             margin: EdgeInsets.fromLTRB(50, 0, 0, 0),
-            width: 260,
-            height: 150,
+            width: 250,
+            height: 120,
             decoration: BoxDecoration(
-              color: Colors.white,
+              color: Color.fromRGBO(230, 230, 230, 1),
               borderRadius: BorderRadius.circular(15)
             ),
             child: Align(
               alignment: Alignment.centerRight,
               child: Container(
-                margin: EdgeInsets.fromLTRB(100, 10, 10, 10),
+                margin: EdgeInsets.fromLTRB(70, 13, 13, 13),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.center,
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Expanded(
-                      flex: 5,
+                      flex: 2,
                         child: Text(
                           data["title"],
                           style: TextStyle(
-                            fontSize: 17,
+                            fontSize: 15,
                             fontWeight: FontWeight.w900
                           ),
                         )
                     ),
                     Expanded(
-                      flex: 5,
                         child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       crossAxisAlignment: CrossAxisAlignment.start,
@@ -86,22 +86,57 @@ class _SuggestCardState extends State<SuggestCard> with SingleTickerProviderStat
                               child: Icon(
                                 Icons.star,
                                 size: 15,
-                                color: Colors.indigoAccent,
+                                color: Colors.lightBlueAccent,
                               )
                               ,
                             )
                           ],
                         )
                       ],
-                    ))
+                    )),
+                    Expanded(
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          crossAxisAlignment: CrossAxisAlignment.end,
+                          children: [
+                            Text(
+                              ("\$"+data["point"]),
+                              style: TextStyle(
+                                  fontSize: 15,
+                                  fontWeight: FontWeight.w900,
+                                color: Colors.lightBlueAccent
+                              ),
+                            ),
+                            Container(
+                              decoration: BoxDecoration(
+                                color: Colors.lightBlueAccent,
+                                borderRadius: BorderRadius.circular(10)
+                              ),
+                              width: 25,
+                              height: 25,
+                              child: CupertinoButton(
+                                  padding: EdgeInsets.zero,
+                                  onPressed: (){
+
+                                  },
+                                  child: const Icon(
+                                    Icons.add,
+                                    size: 18,
+                                    color: Colors.white,
+                                  )
+                              )
+                              ,
+                            )
+                          ],
+                        ))
                   ],
                 ),
               ),
             ),
           ),
           Container(
-            width: 130,
-            height: 130,
+            width: 100,
+            height: 100,
             margin: EdgeInsets.all(10),
             child:  Card(
               shape: RoundedRectangleBorder(
