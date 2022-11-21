@@ -58,15 +58,32 @@ class HomeState extends State<HomeStatefulWidget> {
   @override
   void initState() {
     _controller.addListener(onScroll);
-    var comments = jsonDecode(listComment);
-    for(final item in comments["data"]["statuses"]){
-      data.add({
-        "img": item["bmiddle_pic"],
-        "title":item["text"], //  == null ? item["text"] :  (item["page_info"]["page_title"] == null ? "" : item["page_info"]["page_title"]),
-        "url": item["id"],
-        "pics":item["pics"]
+    if(listComment == ""){
+      API.PictureGet(1).then((value)
+      {
+        setClean();
+        var comments = jsonDecode(value);
+        for(final item in comments["data"]["statuses"]){
+          setData({
+            "img": item["bmiddle_pic"],
+            "title":item["text"], //  == null ? item["text"] :  (item["page_info"]["page_title"] == null ? "" : item["page_info"]["page_title"]),
+            "url": item["id"],
+            "pics":item["pics"]
+          });
+        }
       });
+    }else{
+      var comments = jsonDecode(listComment);
+      for(final item in comments["data"]["statuses"]){
+        data.add({
+          "img": item["bmiddle_pic"],
+          "title":item["text"], //  == null ? item["text"] :  (item["page_info"]["page_title"] == null ? "" : item["page_info"]["page_title"]),
+          "url": item["id"],
+          "pics":item["pics"]
+        });
+      }
     }
+
   }
 
   setProgress(double per){
@@ -189,62 +206,7 @@ class HomeState extends State<HomeStatefulWidget> {
                       );
                     }
                 );
-                // return Card(
-                //   shape: RoundedRectangleBorder(
-                //     borderRadius: BorderRadius.circular(15.0),
-                //   ),
-                //   child: Container(
-                //     padding: EdgeInsets.all(5),
-                //     child: TextButton(
-                //         onPressed: () {
-                //           if(this.data[index]["pics"] == null)
-                //             return;
-                //
-                //           List<dynamic> images = [];
-                //
-                //           for(var itemImage in this.data[index]["pics"]){
-                //             images.add({
-                //               "url":itemImage["url"],
-                //               "download":itemImage["large"]["url"]
-                //             });
-                //           }
-                //
-                //           showMaterialModalBottomSheet(
-                //             context: context,
-                //             builder: (context) => ImageListStateful(images, "url", "download"),
-                //           );
-                //         },
-                //         child: Column(
-                //           crossAxisAlignment: CrossAxisAlignment.start,
-                //           mainAxisAlignment: MainAxisAlignment.start,
-                //           children: [
-                //             ClipRRect(
-                //               borderRadius: BorderRadius.circular(15.0),
-                //               child: Image.network(
-                //                   this.data[index]["img"] == null ? "https://developers.google.com/static/maps/documentation/maps-static/images/error-image-generic.png" :this.data[index]["img"],
-                //               )
-                //             )
-                //             ,
-                //             Container(
-                //               child: Html(
-                //                 data: this.data[index]["title"],
-                //               ),
-                //             )
-                //             // Container(
-                //             //   padding: EdgeInsets.fromLTRB(0, 15, 0, 10),
-                //             //   child: Text(
-                //             //       this.data[index]["title"],
-                //             //     style: TextStyle(
-                //             //       fontSize: 15,
-                //             //       fontWeight: FontWeight.bold
-                //             //     ),
-                //             //
-                //             //   ),
-                //
-                //           ]
-                //         )),
-                //   ),
-                // );
+
               }
 
           )
@@ -276,21 +238,50 @@ class HomeState2 extends State<HomeStatefulWidget> {
   @override
   void initState() {
     _controller.addListener(onScroll);
-    var comments = jsonDecode(listComment);
-    for(final item in comments["data"]["data"]){
-      data.add({
-        "img": item["cover2x"],
-        "time":item["recommendTime"],
-        "viewCount": item["viewCount"],
-        "creator":{
-          "username": item["creatorObj"]["username"],
-          "pageUrl": item["creatorObj"]["pageUrl"],
-          "avatar": item["creatorObj"]["avatar2x"],
-        },
-        "pageUrl":item["pageUrl"],
-        "title": item["title"]
+    if(listComment == ""){
+      API.ImageGetList(1).then((value)
+      {
+        setClean();
+        try{
+          var comments = jsonDecode(value);
+          for(final item in comments["data"]["data"]){
+            setData({
+              "img": item["cover2x"],
+              "time":item["recommendTime"], //  == null ? item["text"] :  (item["page_info"]["page_title"] == null ? "" : item["page_info"]["page_title"]),
+              "viewCount": item["viewCount"],
+              "creator":{
+                "username": item["creatorObj"]["username"],
+                "pageUrl": item["creatorObj"]["pageUrl"],
+                "avatar": item["creatorObj"]["avatar2x"],
+              },
+              "pageUrl":item["pageUrl"],
+              "title": item["title"]
+            });
+          }
+          this.page+=1;
+          preventCall = false;
+        }catch(e){
+          Fluttertoast.showToast(msg: "Error load data",gravity: ToastGravity.BOTTOM);
+        }
       });
+    }else{
+      var comments = jsonDecode(listComment);
+      for(final item in comments["data"]["data"]){
+        data.add({
+          "img": item["cover2x"],
+          "time":item["recommendTime"],
+          "viewCount": item["viewCount"],
+          "creator":{
+            "username": item["creatorObj"]["username"],
+            "pageUrl": item["creatorObj"]["pageUrl"],
+            "avatar": item["creatorObj"]["avatar2x"],
+          },
+          "pageUrl":item["pageUrl"],
+          "title": item["title"]
+        });
+      }
     }
+
   }
 
   setProgress(double per){

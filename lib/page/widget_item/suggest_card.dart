@@ -40,7 +40,7 @@ class _SuggestCardState extends State<SuggestCard> with SingleTickerProviderStat
             width: 250,
             height: 120,
             decoration: BoxDecoration(
-              color: Color.fromRGBO(230, 230, 230, 1),
+              color: Color.fromRGBO(240, 240, 240, 1),
               borderRadius: BorderRadius.circular(15)
             ),
             child: Align(

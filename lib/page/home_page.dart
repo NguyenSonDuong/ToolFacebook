@@ -3,6 +3,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:tool_facebook/page/widget_item/suggest_card.dart';
 
+import '../main.dart';
+
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
 
@@ -15,33 +17,18 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
 
   List<dynamic> listCategory = [
     {
-      "name":"UI/UX",
-      "name2":"UI/UX",
+      "name":"Picture nature",
+      "router":Routes.nature,
 
     },
     {
-      "name":"UI/UX",
-      "name2":"UI/UX",
+      "name":"Picture girl",
+      "router":Routes.girl,
 
     },
     {
-      "name":"UI/UX",
-      "name2":"UI/UX",
-
-    },
-    {
-      "name":"UI/UX",
-      "name2":"UI/UX",
-
-    },
-    {
-      "name":"UI/UX",
-      "name2":"UI/UX",
-
-    },
-    {
-      "name":"UI/UX",
-      "name2":"UI/UX",
+      "name":"Picture hide",
+      "router":Routes.hide,
 
     }
   ];
@@ -106,128 +93,131 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color.fromRGBO(235, 235, 235, 1),
-      body: Padding(
-        padding: EdgeInsets.all(25),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.start,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Container(
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Column(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: const [
-                      Text("Choose your",
-                        style: TextStyle(
-                            fontWeight: FontWeight.w500,
-                            fontSize: 20,
-                            color: Colors.black54
-                        ),
-                      ),
-                      Text("Design Course",
-                        style: TextStyle(
-                            fontWeight: FontWeight.bold,
-                            fontSize: 30,
-                            color: Colors.black
-                        ),
-                      )
 
-                    ],
-                  )
-                ],
+      backgroundColor: Color.fromRGBO(245, 245, 245, 1),
+      body: SingleChildScrollView(
+        child: Padding(
+          padding: EdgeInsets.fromLTRB(25,40,25,10),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Container(
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Column(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: const [
+                        Text("Choose your",
+                          style: TextStyle(
+                              fontWeight: FontWeight.w500,
+                              fontSize: 20,
+                              color: Colors.black54
+                          ),
+                        ),
+                        Text("Design Course",
+                          style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                              fontSize: 30,
+                              color: Colors.black
+                          ),
+                        )
+
+                      ],
+                    )
+                  ],
+                ),
               ),
-            ),
-            Container(
+              Container(
 
-              margin: EdgeInsets.fromLTRB(0, 40, 100, 40),
-              child: TextFormField(
-                decoration: InputDecoration(
-                  contentPadding: EdgeInsetsDirectional.fromSTEB(35, 20, 35, 20),
-                  suffixIcon: Icon(
+                margin: EdgeInsets.fromLTRB(0, 40, 100, 40),
+                child: TextFormField(
+                  decoration: InputDecoration(
+                    contentPadding: EdgeInsetsDirectional.fromSTEB(35, 20, 35, 20),
+                    suffixIcon: Icon(
                       Icons.search,
-                    color: Colors.black54,
-                  ),
-                  filled: true,
-                  fillColor: Colors.white,
-                  hintText: "Search for course",
-                  hintStyle: TextStyle(
-                    fontWeight: FontWeight.w300
-                  ),
-                  focusedBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(30.0),
-                    borderSide: BorderSide(
-                      color: Colors.transparent,
+                      color: Colors.black54,
                     ),
-                  ),
-                  enabledBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(30.0),
-                    borderSide: BorderSide(
-                      color: Colors.transparent,
+                    filled: true,
+                    fillColor: Colors.white,
+                    hintText: "Search for course",
+                    hintStyle: TextStyle(
+                        fontWeight: FontWeight.w300
                     ),
-                  ),
-                ),
-              ),
-            ),
-            Container(
-              child: Text(
-                  "Category",
-                style: TextStyle(
-                  fontWeight: FontWeight.bold,
-                  fontSize: 30
-                ),
-              ),
-            ),
-            Container(
-              padding: EdgeInsets.all(10),
-              height: 80,
-              child: ListView.builder(
-                  scrollDirection: Axis.horizontal,
-                itemCount: listCategory.length,
-                  itemBuilder: (itemBuilder, int index){
-                  return Container(
-                    decoration: BoxDecoration(
-                        color: Colors.lightBlueAccent,
-                        borderRadius: BorderRadius.circular(30)
-                    ),
-                    padding: EdgeInsets.fromLTRB(30, 5, 30, 5),
-                    margin: EdgeInsets.all(5),
-                    child: CupertinoButton(
-                      padding: EdgeInsets.zero,
-                      onPressed: (){
-
-                      },
-                      child: Text(
-                          this.listCategory[index]["name"],
-                        style: TextStyle(
-                          color: Colors.white
-                        ),
+                    focusedBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(30.0),
+                      borderSide: BorderSide(
+                        color: Colors.transparent,
                       ),
                     ),
-                  );
-              }),
-            ),
-            Container(
-              height: 150,
-              margin: EdgeInsets.fromLTRB(0, 20, 0, 10),
-              child: ListView.builder(
-              scrollDirection: Axis.horizontal,
-              itemCount: this.data.length,
-              itemBuilder: (itemBuilder, int index){
-                return SizedBox(
-                  width: 300,
-                  child: SuggestCard(this.data[index]),
-                );
-              })
-            )
+                    enabledBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(30.0),
+                      borderSide: BorderSide(
+                        color: Colors.transparent,
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+              Container(
+                child: Text(
+                  "Category",
+                  style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      fontSize: 30
+                  ),
+                ),
+              ),
+              Container(
+                padding: EdgeInsets.all(10),
+                height: 80,
+                child: ListView.builder(
+                    scrollDirection: Axis.horizontal,
+                    itemCount: listCategory.length,
+                    itemBuilder: (itemBuilder, int index){
+                      return Container(
+                        decoration: BoxDecoration(
+                            color: Colors.lightBlueAccent,
+                            borderRadius: BorderRadius.circular(30)
+                        ),
+                        padding: EdgeInsets.fromLTRB(30, 5, 30, 5),
+                        margin: EdgeInsets.all(5),
+                        child: CupertinoButton(
+                          padding: EdgeInsets.zero,
+                          onPressed: (){
+                            Navigator.pushNamed(context, this.listCategory[index]["router"]);
+                          },
+                          child: Text(
+                            this.listCategory[index]["name"],
+                            style: TextStyle(
+                                color: Colors.white
+                            ),
+                          ),
+                        ),
+                      );
+                    }),
+              ),
+              Container(
+                  height: 150,
+                  margin: EdgeInsets.fromLTRB(0, 20, 0, 10),
+                  child: ListView.builder(
+                      scrollDirection: Axis.horizontal,
+                      itemCount: this.data.length,
+                      itemBuilder: (itemBuilder, int index){
+                        return SizedBox(
+                          width: 300,
+                          child: SuggestCard(this.data[index]),
+                        );
+                      })
+              )
 
-          ],
+            ],
+          ),
         ),
-      ),
+      )
     );
   }
 }
